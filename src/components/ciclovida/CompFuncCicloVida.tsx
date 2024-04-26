@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 
 const CompFuncCicloVida = () => {
-    const miVariable = useRef<boolean | undefined>()
+    const [miVariable, setMiVariable] = useState<boolean | undefined>()
     // 1 - Componente se monta
     // 2 - Componente se actualiza
     // 3 - Componente se va a desmontar
@@ -11,12 +11,16 @@ const CompFuncCicloVida = () => {
             console.log("Se va a desmontar")
         }
     }, [])
+    useEffect(() => {
+        if (typeof miVariable === "undefined") return
+        console.log("miVariable ha cambiado")
+    }, [miVariable])
 
     const updateVar = () => {
-        miVariable.current =
-            typeof miVariable.current === "undefined"
-                ? true
-                : !miVariable.current
+        setMiVariable((val) => {
+            if (typeof val === "undefined") return true
+            return !val
+        })
     }
 
     return (
